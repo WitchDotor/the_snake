@@ -1,5 +1,5 @@
 import random
-from typing import List, Tuple
+from typing import Tuple
 
 import pygame
 
@@ -43,7 +43,8 @@ clock = pygame.time.Clock()
 
 class GameObject:
     """Анонимный класс для игровых объектов"""
-    def __init__(self, body_color: Tuple[int, int, int]=(0, 0, 0),
+
+    def __init__(self, body_color: Tuple[int, int, int] = (0, 0, 0),
                  position=(SCREEN_CENTER_WIDTH, SCREEN_CENTER_HEIGHT)):
         self.position = position
         self.body_color = body_color
