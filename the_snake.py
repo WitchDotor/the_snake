@@ -1,5 +1,5 @@
 import random
-from typing import Tuple, List
+from typing import List, Tuple
 
 import pygame
 
@@ -55,15 +55,18 @@ class GameObject:
 
 
 class Apple(GameObject):
-    def __init__(self, position=None, body_color: Tuple[int, int, int] = SNAKE_COLOR):
+    def __init__(self, position=None,
+                 body_color: Tuple[int, int, int] = SNAKE_COLOR):
         super().__init__(body_color, position)
-        self.position = random.randrange(20, SCREEN_WIDTH, GRID_SIZE), random.randrange(20, SCREEN_WIDTH, GRID_SIZE)
+        self.position = (random.randrange(20, SCREEN_WIDTH, GRID_SIZE),
+                         random.randrange(20, SCREEN_WIDTH, GRID_SIZE))
         self.body_color = APPLE_COLOR
 
     def randomize_position(self):
-        new_position = random.randrange(20, SCREEN_WIDTH - GRID_SIZE, GRID_SIZE), random.randrange(20,
-                                                                                                   SCREEN_HEIGHT - GRID_SIZE,
-                                                                                                   GRID_SIZE)
+        max_coord_x = SCREEN_WIDTH - GRID_SIZE
+        max_coord_y = SCREEN_HEIGHT - GRID_SIZE
+        new_position = (random.randrange(20, max_coord_x, GRID_SIZE),
+                        random.randrange(20, max_coord_y, GRID_SIZE))
         self.position = new_position
 
     def draw(self):
@@ -73,7 +76,8 @@ class Apple(GameObject):
 
 
 class Snake(GameObject):
-    def __init__(self, positions=None, body_color: Tuple[int, int, int] = SNAKE_COLOR,
+    def __init__(self, positions=None,
+                 body_color: Tuple[int, int, int] = SNAKE_COLOR,
                  position: List[Tuple[int, int]] = [(0, 0), (0, 0)]):
         super().__init__(body_color, position)
         self.positions = None
@@ -95,14 +99,16 @@ class Snake(GameObject):
         for pos in self.position[:-1]:
             float_pair_first = float(pos[0])
             float_pair_second = float(pos[1])
-            rect = (pygame.Rect((float_pair_first, float_pair_second), (GRID_SIZE, GRID_SIZE)))
+            rect = (pygame.Rect((float_pair_first, float_pair_second),
+                                (GRID_SIZE, GRID_SIZE)))
             pygame.draw.rect(screen, self.body_color, rect)
             pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
 
         # Отрисовка головы змейки
         float_pair_first = float(self.position[0][0])
         float_pair_second = float(self.position[0][1])
-        head_rect = pygame.Rect((float_pair_first, float_pair_second), (GRID_SIZE, GRID_SIZE))
+        head_rect = pygame.Rect((float_pair_first, float_pair_second),
+                                (GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(screen, self.body_color, head_rect)
         pygame.draw.rect(screen, BORDER_COLOR, head_rect, 1)
 
@@ -110,12 +116,15 @@ class Snake(GameObject):
         coordinate_pair = self.position.pop()
         float_pair_first = float(coordinate_pair[0])
         float_pair_second = float(coordinate_pair[1])
-        last_rect = pygame.Rect((float_pair_first, float_pair_second), (GRID_SIZE, GRID_SIZE))
+        last_rect = pygame.Rect((float_pair_first, float_pair_second),
+                                (GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(screen, BOARD_BACKGROUND_COLOR, last_rect)
 
     def move(self):
-        new_x_coordinate = self.position[0][0] + self.next_direction[0] * GRID_SIZE
-        new_y_coordinate = self.position[0][1] + self.next_direction[1] * GRID_SIZE
+        new_x_coordinate = (self.position[0][0]
+                            + self.next_direction[0] * GRID_SIZE)
+        new_y_coordinate = (self.position[0][1]
+                            + self.next_direction[1] * GRID_SIZE)
         if new_x_coordinate > SCREEN_WIDTH:
             new_x_coordinate = 0
         if new_x_coordinate < 0:
@@ -128,7 +137,6 @@ class Snake(GameObject):
 
         new_position = (new_x_coordinate, new_y_coordinate)
         self.position.insert(0, new_position)
-        # self.last = True
         self.draw()
 
     def eat_apple(self, apple: GameObject):
@@ -175,13 +183,17 @@ def handle_keys(game_object):
             pygame.quit()
             raise SystemExit
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP and game_object.direction != DOWN and game_object.next_direction != DOWN:
+            if (event.key == pygame.K_UP and game_object.direction != DOWN
+                    and game_object.next_direction != DOWN):
                 game_object.next_direction = UP
-            elif event.key == pygame.K_DOWN and game_object.direction != UP and game_object.next_direction != UP:
+            elif (event.key == pygame.K_DOWN and game_object.direction != UP
+                  and game_object.next_direction != UP):
                 game_object.next_direction = DOWN
-            elif event.key == pygame.K_LEFT and game_object.next_direction != RIGHT:
+            elif (event.key == pygame.K_LEFT
+                  and game_object.next_direction != RIGHT):
                 game_object.next_direction = LEFT
-            elif event.key == pygame.K_RIGHT and game_object.direction != LEFT and game_object.next_direction != LEFT:
+            elif (event.key == pygame.K_RIGHT and game_object.direction != LEFT
+                  and game_object.next_direction != LEFT):
                 game_object.next_direction = RIGHT
 
 
@@ -219,26 +231,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-# Метод draw класса Apple
-# def draw(self):
-#     rect = pygame.Rect(self.position, (GRID_SIZE, GRID_SIZE))
-#     pygame.draw.rect(screen, self.body_color, rect)
-#     pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
-
-# # Метод draw класса Snake
-# def draw(self):
-#     for position in self.positions[:-1]:
-#         rect = (pygame.Rect(position, (GRID_SIZE, GRID_SIZE)))
-#         pygame.draw.rect(screen, self.body_color, rect)
-#         pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
-
-#     # Отрисовка головы змейки
-#     head_rect = pygame.Rect(self.positions[0], (GRID_SIZE, GRID_SIZE))
-#     pygame.draw.rect(screen, self.body_color, head_rect)
-#     pygame.draw.rect(screen, BORDER_COLOR, head_rect, 1)
-
-#     # Затирание последнего сегмента
-#     if self.last:
-#         last_rect = pygame.Rect(self.last, (GRID_SIZE, GRID_SIZE))
-#         pygame.draw.rect(screen, BOARD_BACKGROUND_COLOR, last_rect)
