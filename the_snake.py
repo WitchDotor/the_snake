@@ -66,14 +66,13 @@ class Apple(GameObject):
         max_coord_x = SCREEN_WIDTH - GRID_SIZE
         max_coord_y = SCREEN_HEIGHT - GRID_SIZE
         new_position = (random.randrange(20, max_coord_x, GRID_SIZE),
-                        random.randrange(20, max_coord_y, GRID_SIZE))
+                        random.randrange(20,max_coord_y, GRID_SIZE))
         self.position = new_position
 
     def draw(self):
         rect = pygame.Rect(self.position, (GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(screen, self.body_color, rect)
         pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
-
 
 class Snake(GameObject):
     def __init__(self, positions=None,
