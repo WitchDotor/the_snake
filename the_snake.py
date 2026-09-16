@@ -42,8 +42,9 @@ clock = pygame.time.Clock()
 
 
 class GameObject:
-    def __init__(self, body_color: Tuple[int, int, int] = (0, 0, 0),
-                 position = (SCREEN_CENTER_WIDTH, SCREEN_CENTER_HEIGHT)):
+    """Анонимный класс для игровых объектов"""
+    def __init__(self, body_color: Tuple[int, int, int]=(0, 0, 0),
+                 position=(SCREEN_CENTER_WIDTH, SCREEN_CENTER_HEIGHT)):
         self.position = position
         self.body_color = body_color
 
@@ -97,7 +98,7 @@ class Snake(GameObject):
     def __init__(
         self,
         positions=None,
-        body_color: Tuple[int, int, int]=SNAKE_COLOR,
+        body_color: Tuple[int, int, int] = SNAKE_COLOR,
     ):
         """Инициализирует змейку.
 
@@ -220,7 +221,7 @@ class Snake(GameObject):
 # Тут опишите все классы игры.
 # Функция обработки действий пользователя
 def handle_keys(game_object):
-    """"Обработка нажатий клавиш"""
+    """Обработка нажатий клавиш"""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -242,14 +243,14 @@ def handle_keys(game_object):
 
 # Метод обновления направления после нажатия на кнопку
 def update_direction(self):
-    """"Обновление направления змейки"""
+    """Обновление направления змейки"""
     if self.next_direction:
         self.direction = self.next_direction
         self.next_direction = None
 
 
 def main():
-    """"Запуск логики игры"""
+    """Запуск логики игры"""
     # Инициализация PyGame:
     pygame.init()
     # Тут нужно создать экземпляры классов.
