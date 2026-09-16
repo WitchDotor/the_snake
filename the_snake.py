@@ -48,10 +48,12 @@ class GameObject:
         self.body_color = body_color
 
     def reset(self):
+        """Метод перезапуска объекта"""
         self.__init__(self)
 
     def draw(self):
-        return
+        """Метод отрисовки, реализован в дочерних классах"""
+        ...
 
 
 class Apple(GameObject):
@@ -94,8 +96,8 @@ class Snake(GameObject):
 
     def __init__(
         self,
-        positions = None,
-        body_color: Tuple[int, int, int] = SNAKE_COLOR,
+        positions=None,
+        body_color: Tuple[int, int, int]=SNAKE_COLOR,
     ):
         """Инициализирует змейку.
 
@@ -214,9 +216,11 @@ class Snake(GameObject):
         """Возвращает позицию головы змейки."""
         return self.positions[0]
 
+
 # Тут опишите все классы игры.
 # Функция обработки действий пользователя
 def handle_keys(game_object):
+    """"Обработка нажатий клавиш"""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -238,12 +242,14 @@ def handle_keys(game_object):
 
 # Метод обновления направления после нажатия на кнопку
 def update_direction(self):
+    """"Обновление направления змейки"""
     if self.next_direction:
         self.direction = self.next_direction
         self.next_direction = None
 
 
 def main():
+    """"Запуск логики игры"""
     # Инициализация PyGame:
     pygame.init()
     # Тут нужно создать экземпляры классов.
