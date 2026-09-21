@@ -10,7 +10,7 @@ SCREEN_CENTER_HEIGHT = SCREEN_HEIGHT // 2
 GRID_SIZE = 20
 GRID_WIDTH = SCREEN_WIDTH // GRID_SIZE
 GRID_HEIGHT = SCREEN_HEIGHT // GRID_SIZE
-CENTER_POSITION=(SCREEN_CENTER_WIDTH, SCREEN_CENTER_HEIGHT)
+CENTER_POSITION = (SCREEN_CENTER_WIDTH, SCREEN_CENTER_HEIGHT)
 
 UP = (0, -1)
 DOWN = (0, 1)
@@ -43,17 +43,17 @@ clock = pg.time.Clock()
 class GameObject:
     """Анонимный класс для игровых объектов"""
 
-    def __init__(self, body_color: Tuple[int, int, int]=(0,0,0),
-                 position: Tuple[int, int]=CENTER_POSITION):
+    def __init__(self, body_color: Tuple[int, int, int] = (0, 0, 0),
+                 position: Tuple[int, int] = CENTER_POSITION):
         self.position = position
         self.body_color = body_color
 
     def draw(self):
         class_name = self.__class__.__name__
         message = f'Метод draw класса {class_name} должен быть реализован '
-        raise  NotImplementedError(message)
+        raise NotImplementedError(message)
 
-    def draw_rect(self, position: Tuple[int, int]=(0,0), color: Tuple[int, int, int]=None, with_border=False):
+    def draw_rect(self, position: Tuple[int, int] = (0, 0), color: Tuple[int, int, int] = None, with_border=False):
         """Отрисовывает квадрат на экране. Если color == None, берется color = self.body_color"""
         if color is None:
             color = self.body_color
@@ -72,9 +72,9 @@ class Apple(GameObject):
     """Класс яблока, которое собирает змейка."""
 
     def __init__(
-        self,
-        position = (0, 0),
-        body_color: Tuple[int, int, int] = APPLE_COLOR
+            self,
+            position=(0, 0),
+            body_color: Tuple[int, int, int] = APPLE_COLOR
     ):
         """Инициализирует яблоко.
 
@@ -83,7 +83,6 @@ class Apple(GameObject):
             body_color: Цвет яблока.
         """
         super().__init__(body_color, position)
-
 
     def randomize_position(self, filled_positions: List[Tuple[int, int]]):
         """Устанавливает случайную позицию яблока на игровом поле."""
@@ -101,13 +100,12 @@ class Apple(GameObject):
         self.draw_rect(position=self.position, with_border=True)
 
 
-
 class Snake(GameObject):
     """Класс змейки, управляемой игроком."""
 
     def __init__(
-        self,
-        body_color: Tuple[int, int, int] = SNAKE_COLOR,
+            self,
+            body_color: Tuple[int, int, int] = SNAKE_COLOR,
     ):
         """Инициализирует змейку.
 
@@ -126,8 +124,7 @@ class Snake(GameObject):
 
     def erase_last_segment(self):
         """Затирание последнего сегмента"""
-        if len(self.positions)>1:
-            #self.draw_rect()
+        if len(self.positions) > 1:
             last_rect = pg.Rect(
                 self.positions.pop(),
                 (GRID_SIZE, GRID_SIZE)
@@ -141,22 +138,25 @@ class Snake(GameObject):
 
     def reset(self):
         """Сбрасывает состояние змейки и очищает её сегменты на экране."""
-        for i in self.positions[0:]:
+        for _ in self.positions[0:]:
             self.erase_last_segment()
         self.__init__(self.body_color)
 
     def move(self):
         """Перемещает змейку в текущем направлении."""
         new_x_coordinate = (
-            (self.positions[0][0] + self.next_direction[0] * GRID_SIZE)%SCREEN_WIDTH
+                (self.positions[0][0] + self.next_direction[0]
+                 * GRID_SIZE) % SCREEN_WIDTH
         )
         new_y_coordinate = (
-            (self.positions[0][1] + self.next_direction[1] * GRID_SIZE)%SCREEN_HEIGHT
+                (self.positions[0][1] + self.next_direction[1]
+                 * GRID_SIZE) % SCREEN_HEIGHT
         )
         new_positions = (new_x_coordinate, new_y_coordinate)
         self.positions.insert(0, new_positions)
 
     def grow(self):
+        """Удлиняет змейку на 1 сегмент"""
         last_coordinate = self.positions[len(self.positions) - 1]
         if self.direction == UP:
             x_coordinate = last_coordinate[0] + DOWN[0] * GRID_SIZE
@@ -175,8 +175,7 @@ class Snake(GameObject):
             y_coordinate = last_coordinate[1] + RIGHT[1] * GRID_SIZE
             self.positions.append((x_coordinate, y_coordinate))
         else:
-            ...
-            # self.reset()
+            pass
 
     def check_self_eating(self) -> bool:
         """Проверяет, не съела ли змейка себя, и сбрасывает игру."""
@@ -184,6 +183,7 @@ class Snake(GameObject):
             self.reset()
             return True
         return False
+
     def update_direction(self):
         """Обновляет направление движения после нажатия клавиши."""
         if self.next_direction:
@@ -219,7 +219,7 @@ def handle_keys(game_object):
 def main():
     """Запуск логики игры"""
     pg.init()
-    apple = Apple(position=(0,0))
+    apple = Apple(position=(0, 0))
     apple.randomize_position(filled_positions=[CENTER_POSITION])
     snake = Snake()
 
