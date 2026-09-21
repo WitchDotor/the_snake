@@ -1,7 +1,6 @@
 import random
 import sys
 from typing import Tuple, List
-
 import pygame as pg
 
 SCREEN_WIDTH, SCREEN_HEIGHT = 640, 480
@@ -43,18 +42,21 @@ clock = pg.time.Clock()
 class GameObject:
     """Анонимный класс для игровых объектов"""
 
-    def __init__(self, body_color: Tuple[int, int, int] = (0, 0, 0),
+    def __init__(self, body_color: Tuple[int, int, int] = USED_COLORS['BLACK'],
                  position: Tuple[int, int] = CENTER_POSITION):
         self.position = position
         self.body_color = body_color
 
     def draw(self):
+        """Метод отрисовки, должен быть реализован в дочерних классах"""
         class_name = self.__class__.__name__
         message = f'Метод draw класса {class_name} должен быть реализован '
         raise NotImplementedError(message)
 
-    def draw_rect(self, position: Tuple[int, int] = (0, 0), color: Tuple[int, int, int] = None, with_border=False):
-        """Отрисовывает квадрат на экране. Если color == None, берется color = self.body_color"""
+    def draw_rect(self, position: Tuple[int, int] = (0, 0),
+                  color: Tuple[int, int, int] = None,
+                  with_border=False):
+        """Отрисовывает квадрат на экране. Если color == None, берется color = self.body_color. Необходим для переиспользования в методе draw()"""
         if color is None:
             color = self.body_color
         x_pos = float(position[0])
@@ -119,8 +121,6 @@ class Snake(GameObject):
         self.length = 1
         self.next_direction = RIGHT
         self.last = False
-        print(self.positions)
-        print(self.position)
 
     def erase_last_segment(self):
         """Затирание последнего сегмента"""
