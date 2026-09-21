@@ -56,7 +56,9 @@ class GameObject:
     def draw_rect(self, position: Tuple[int, int] = (0, 0),
                   color: Tuple[int, int, int] = None,
                   with_border=False):
-        """Отрисовывает квадрат на экране. Если color == None, берется color = self.body_color. Необходим для переиспользования в методе draw()"""
+        """Отрисовывает квадрат на экране. Если color == None,
+        берется color = self.body_color.
+        Необходим для переиспользования в методе draw()"""
         if color is None:
             color = self.body_color
         x_pos = float(position[0])
@@ -145,12 +147,12 @@ class Snake(GameObject):
     def move(self):
         """Перемещает змейку в текущем направлении."""
         new_x_coordinate = (
-                (self.positions[0][0] + self.next_direction[0]
-                 * GRID_SIZE) % SCREEN_WIDTH
+            (self.positions[0][0] + self.next_direction[0] * GRID_SIZE)
+            % SCREEN_WIDTH
         )
         new_y_coordinate = (
-                (self.positions[0][1] + self.next_direction[1]
-                 * GRID_SIZE) % SCREEN_HEIGHT
+            (self.positions[0][1] + self.next_direction[1] * GRID_SIZE)
+            % SCREEN_HEIGHT
         )
         new_positions = (new_x_coordinate, new_y_coordinate)
         self.positions.insert(0, new_positions)
