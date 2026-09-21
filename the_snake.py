@@ -1,8 +1,8 @@
-import pygame as pg
-
 import random
 import sys
-from typing import Tuple, List
+from typing import List, Tuple
+
+import pygame as pg
 
 SCREEN_WIDTH, SCREEN_HEIGHT = 640, 480
 SCREEN_CENTER_WIDTH = SCREEN_WIDTH // 2
@@ -57,7 +57,7 @@ class GameObject:
     def draw_rect(self, position: Tuple[int, int] = (0, 0),
                   color: Tuple[int, int, int] = None,
                   with_border=False):
-        """Отрисовывает квадрат на экране. Если color == None, берется color = self.body_color. Необходим для переиспользования в методе draw()"""
+        """Отрисовывает квадрат на экране."""
         if color is None:
             color = self.body_color
         x_pos = float(position[0])
